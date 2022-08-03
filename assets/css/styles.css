@@ -1,0 +1,76 @@
+/* body */
+.body-form {
+border: 3px solid var(--secondary-color);
+background-color: rgba(7, 208, 249, 0.8);
+padding: 20px;
+color: var(--secondary-color);
+width: 40%;
+margin: 3.5%;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+border-radius: 15px;
+border: 1px solid rgb(35, 45, 238);
+}
+
+input[type=text] , select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=email], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+/* header */
+
+
+
+.form-label {
+    color:rgb(51, 11, 232)
+}
+
+.form-text {
+    color: rgb(17, 3, 80)
+}
+
+.header-text {
+    color:rgb(17, 3, 80);
+    text-align: center; 
+    
+}
+
+.header-box {
+        background-color: rgba(7, 208, 249, 0.8);
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: block;
+        border: 1px solid rgb(35, 45, 238);
+        border-radius: 4px;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px rgba(10, 5, 84, 0.5);
+}
+
+
+/* footer */
+/* hero */
+
