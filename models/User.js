@@ -82,6 +82,14 @@ User.init(
                 key: 'id'
             }
         }
+    },
+    {
+        sequelize,
+        //auto generate created_at and updated_at columns
+        timestamps: true,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'user'
     }
 )
 
