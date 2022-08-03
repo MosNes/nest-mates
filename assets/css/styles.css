@@ -1,3 +1,4 @@
+
 /* body */
 .body-form {
 border: 3px solid var(--secondary-color);
@@ -5,7 +6,7 @@ background-color: rgba(7, 208, 249, 0.8);
 padding: 20px;
 color: var(--secondary-color);
 width: 40%;
-margin: 3.5%;
+margin: 1% 0 1% 0;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 border-radius: 15px;
 border: 1px solid rgb(35, 45, 238);
@@ -85,4 +86,15 @@ input[type=email], select {
 }
 
 /* hero */
+.hero-background {
+    background-image: url("../images/House-background.jpg");
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    background-attachment: fixed;
+    background-position: 80%;
+}
+
 
