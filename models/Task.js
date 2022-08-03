@@ -43,7 +43,6 @@ Task.init(
     },
     {
         sequelize,
-        //auto generate created_at and updated_at columns
         timestamps: false,
         freezeTableName: true,
         underscored: true,
