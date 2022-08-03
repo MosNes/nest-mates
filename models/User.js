@@ -84,6 +84,20 @@ User.init(
         }
     },
     {
+        //enable hooks, functions that are called whenever data is manipulated in this table
+        hooks : {
+            //runs before a user is created in the db and hashes their PW
+            async beforeCreate(newUserData) {
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
+                return newUserData;
+            },
+
+            // runs when a user is updated, requires { individualHooks: true } to be added to the function that handles the update in the PUT route
+            async beforeUpdate(updatedUserData) {
+                updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+                return updatedUserData;
+            }
+        },
         sequelize,
         //auto generate created_at and updated_at columns
         timestamps: true,
