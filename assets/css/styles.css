@@ -59,18 +59,30 @@ input[type=email], select {
 }
 
 .header-box {
-        background-color: rgba(7, 208, 249, 0.8);
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: block;
-        border: 1px solid rgb(35, 45, 238);
-        border-radius: 4px;
-        box-sizing: border-box;
-        box-shadow: 0 0 10px rgba(10, 5, 84, 0.5);
+    background-color: rgba(7, 208, 249, 0.8);
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid rgb(35, 45, 238);
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(10, 5, 84, 0.5);
 }
 
 
 /* footer */
+.contribution-box {
+    background-color: rgba(7, 208, 249, 0.8);
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid rgb(35, 45, 238);
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(10, 5, 84, 0.5);
+}
+
 /* hero */
 
