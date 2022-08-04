@@ -51,7 +51,7 @@ app.use(session(sess));
 
 //-----------------------ROUTES-----------------------------------------------------
 //uncomment this once routes are created to import them
-// app.use(routes);
+app.use(routes);
 
 //-----------------------INITIALIZATIONS-----------------------------------------------------
 
