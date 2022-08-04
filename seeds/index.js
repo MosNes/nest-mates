@@ -1,3 +1,6 @@
+//captures env variables
+require('dotenv').config();
+
 const sequelize = require('../config/connection');
 const seedNest = require('./nestData');
 const seedUser = require('./userData');
