@@ -39,6 +39,22 @@ Task.init(
                 model: 'nest',
                 key: 'id'
             }
+        },
+        //Recurs column (how often the task needs to be performed)
+        // daily, weekly, monthly
+        recurs: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isRecur(value) {
+                    if (value !== 'daily'
+                    || value !== 'weekly'
+                    || value !== 'monthly'
+                    ) {
+                        throw new Error('Invalid recurs value: Recurring period must be daily, weekly, or monthly.');
+                    }
+                }
+            }
         }
     },
     {
