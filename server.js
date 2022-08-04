@@ -8,6 +8,8 @@ const path = require('path');
 const express = require('express');
 const routes = require('./controllers/');
 const sequelize = require('./config/connection');
+
+//-------------------remove models variable after routes are created and imported-----------------
 const models = require('./models');
 
 //handlebars for express
@@ -47,7 +49,8 @@ app.set('view engine', 'handlebars');
 //required to use sessions
 app.use(session(sess));
 
-//Routes
+//-----------------------ROUTES-----------------------------------------------------
+//uncomment this once routes are created to import them
 // app.use(routes);
 
 //-----------------------INITIALIZATIONS-----------------------------------------------------
