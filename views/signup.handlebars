@@ -1,28 +1,42 @@
 <body>
     <h2>To get started please fill out the form below</h2>
     <!-- Sign up Form -->
-    <box class="box">
-
+    <form class="box">
         <div class="field">
-            <label for="name" class="field">Enter first and last name:</label>
+            <label for="name" class="label">Enter first and last name:</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter your full name here"/>  
+            </div>
         </div>
 
         <div class="field">
-            <label for="email" class="">Enter Email Address:</label>
+            <label for="email" class="label">Enter Email Address:</label>
+            <div class="control">
+                <input class="input" type="email" placeholder="e.g. alex@example.com"/>                
+            </div>
         </div>
 
         <div class="field">
-            <label for="phone" class="">Enter your Username:</label>
+            <label for="phone" class="label">Enter your Username:</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter your username"/>
+            </div>
         </div>
 
         <div class="field">
-            <label for="pwd" class="">Password:</label>
+            <label for="pwd" class="label">Password:</label>
+            <div class="control">
+                <input class="input" type="password" placeholder="I promise I'm not keylogging"/>
+            </div>
         </div>
 
         <div class="field">
-            <label for="pwd" class="">"Nest" Address:</label>
+            <label for="address" class="label">"Nest" Address:</label>
+            <div class="control">
+                <input class="input" type="address" placeholder="Enter your Nest Address"/>
+            </div>
         </div>
 
         <button class="button-is-primary"> SUBMIT </button>
-    </box>
+    </form>
 </body>
