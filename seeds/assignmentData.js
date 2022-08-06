@@ -2,22 +2,94 @@
 require('dotenv').config();
 
 const { Assignment } = require('../models');
+const { formatAssignments } = require('../utils/format-assignments');
 
-const assignmentData= [
-    { date: '8/6/2022', task_id: 4, user_id: 5, nest_id: 2 },
-    { date: '8/6/2022', task_id: 5, user_id: 6, nest_id: 2 },
-    { date: '8/6/2022', task_id: 6, user_id: 7, nest_id: 2 },
-    { date: '8/6/2022', task_id: 7, user_id: 5, nest_id: 2 },
-    { date: '8/7/2022', task_id: 4, user_id: 6, nest_id: 2 },
-    { date: '8/7/2022', task_id: 5, user_id: 7, nest_id: 2 },
-    { date: '8/7/2022', task_id: 6, user_id: 5, nest_id: 2 },
-    { date: '8/7/2022', task_id: 7, user_id: 6, nest_id: 2 },
-    { date: '8/8/2022', task_id: 4, user_id: 7, nest_id: 2 },
-    { date: '8/8/2022', task_id: 5, user_id: 5, nest_id: 2 },
-    { date: '8/8/2022', task_id: 6, user_id: 6, nest_id: 2 },
-    { date: '8/8/2022', task_id: 7, user_id: 7, nest_id: 2 }
-  ];
+const nestMateJSON = `[
+  {
+      "id": 5,
+      "username": "misstake",
+      "email": "accidentalMillionaire@gmail.com",
+      "first_name": "Francine",
+      "last_name": "Kibble",
+      "role": "Nestmate",
+      "nest_id": 2
+  },
+  {
+      "id": 6,
+      "username": "noble420",
+      "email": "blazeit@gmail.com",
+      "first_name": "Mordecai",
+      "last_name": "Montague",
+      "role": "Nestmate",
+      "nest_id": 2
+  },
+  {
+      "id": 7,
+      "username": "fweeb",
+      "email": "weeblbleeb@gmail.com",
+      "first_name": "Sousuke",
+      "last_name": "WithTheMosuke",
+      "role": "Nestmate",
+      "nest_id": 2
+  }
+]`
+const nestMateArr = JSON.parse(nestMateJSON);
 
-const seedAssignment = () => Assignment.bulkCreate(assignmentData);
+const dailyTasksJSON = `[
+  {
+      "id": 4,
+      "task_name": "Clean the Kitchen",
+      "task_description": "Use the drying rack",
+      "nest_id": 2
+  },
+  {
+    "id": 8,
+    "task_name": "Walk the Doggo",
+    "task_description": "At least 30min",
+    "nest_id": 2
+  }
+]`
+const dailyTasksArr = JSON.parse(dailyTasksJSON);
 
-seedAssignment();
+const weeklyTasksJSON = `[
+  {
+    "id": 6,
+    "task_name": "Mow the Lawn",
+    "task_description": "Use the weedeater too",
+    "nest_id": 2
+},
+{
+  "id": 5,
+  "task_name": "Clean the upstairs bathroom",
+  "task_description": "Make sure to get the tub",
+  "nest_id": 2
+}
+]`
+const weeklyTasksArr = JSON.parse(weeklyTasksJSON);
+
+const monthlyTasksJSON = `[
+  {
+    "id": 7,
+    "task_name": "Clean up dog poo",
+    "task_description": "Front and back yard",
+    "nest_id": 2
+}
+]`
+const monthlyTasksArr = JSON.parse(monthlyTasksJSON);
+
+const dailyAssignmentData = formatAssignments(nestMateArr, dailyTasksArr, 'daily', new Date().toLocaleDateString(), 60);
+const weeklyAssignmentData = formatAssignments(nestMateArr, weeklyTasksArr, 'weekly', new Date().toLocaleDateString(), 8);
+const monthlyAssignmentData = formatAssignments(nestMateArr, monthlyTasksArr, 'monthly', new Date().toLocaleDateString(), 2);
+
+const seedDailyAssignment = () => Assignment.bulkCreate(dailyAssignmentData);
+const seedWeeklyAssignment = () => Assignment.bulkCreate(weeklyAssignmentData);
+const seedMonthlyAssignment = () => Assignment.bulkCreate(monthlyAssignmentData);
+
+const seedAllAssignment = () => {
+  seedDailyAssignment();
+  seedWeeklyAssignment();
+  seedMonthlyAssignment();
+}
+
+seedAllAssignment();
+
