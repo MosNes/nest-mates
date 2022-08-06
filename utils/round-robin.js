@@ -1,5 +1,7 @@
 const { SequentialRoundRobin } = require("round-robin-js");
 
+//expects an array of nest mates, an array of tasks, and the number of days, weeks, or months
+//to create pairings for
 const roundRobin = (nestMateArr, taskArr, iterations) => {
   //create a looping table of the users in a nest
   const nestMatesTable = new SequentialRoundRobin(nestMateArr);
