@@ -15,6 +15,7 @@ const roundRobin = (nestMateArr, taskArr, iterations) => {
   //for the number of iterations specified (30 days, 3 weeks, etc) do this
   for (let i = 0; i < iterations; i++) {
     //pair the next user with the next task
+    // [this user, this task]
     assignmentArr.push([nestMatesTable.next().value, taskTable.next().value]);
   }
 
