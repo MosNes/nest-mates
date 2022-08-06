@@ -48,6 +48,37 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//Get Daily, Weekly, or Monthly tasks by Nest ID -- REQUIRES AUTH
+router.post('/tasks/', (req, res) => {
+    //expects {nest_id: 'id', task_type: 'daily OR weekly OR monthly'}
+    Nest.findOne({
+        where: {
+            id: req.body.nest_id
+        },
+        attributes: ['id'],
+        include: [
+            {
+                model: Task,
+                attributes: ['id', 'task_name','task_description'],
+                where: {
+                    recurs: req.body.task_type
+                }
+            }
+        ]
+    })
+    .then(dbNestData => {
+        if (!dbNestData) {
+            res.status(400).json({ message: 'No nest found with that ID' })
+            return;
+        }
+        res.json(dbNestData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
 //create Nest
 router.post('/', (req, res) => {
     //expects {nest_name: 'name', street: 'street address', city: 'city', state: 'NC', zip: 'zip code'}
