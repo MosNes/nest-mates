@@ -1,4 +1,5 @@
 const { formatAssignments } = require('../utils/create-assignments');
+const moment = require('moment');
 
 test ('formats an array of assignments objects from a round robin array of user/task pairings',
     () => {
@@ -67,10 +68,12 @@ test ('formats an array of assignments objects from a round robin array of user/
         //startDate = string of today's date in MM-DD-YYYY format
         const startDate = new Date().toLocaleDateString();
 
-        const assignmentArr = formatAssignments(nestMateArr, tasksArr, taskType, startDate, 10);
+        const assignmentArr = formatAssignments(nestMateArr, tasksArr, taskType, startDate, 12);
         console.log(assignmentArr);
 
         expect(typeof nestMateArr).toEqual('object');
         expect(typeof tasksArr).toEqual('object');
+        expect(assignmentArr[0].date).toEqual(startDate);
+        expect(assignmentArr[8].date).toEqual(moment(startDate, 'MM-DD-YYYY').add(2, 'days').format('M/D/YYYY'));
     }
 )
