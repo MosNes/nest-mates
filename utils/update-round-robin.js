@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 //When a new task is created or a new user is added to the nest, the future round robin assignments need to be recalculated
 
-const { Task } = require("../models");
+const { Task, User } = require("../models");
+const moment = require('moment');
 
 //TRIGGER: when a new task is created or a new user is added to the nest
 // params are recordId and eventType
@@ -8,26 +11,76 @@ const { Task } = require("../models");
 const updateRoundRobin = async (recordId, eventType) => {
 
 //get the date of the task creation or user creation
-let createdAtDate = null;
 let record = null;
 
     //if eventType is newTask, query task db for record
     if (eventType === 'newTask') {
         record = await Task.findOne({
-            attributes: ['id', 'created']
+            where: {
+                id: recordId
+            },
+            attributes: ['id', 'created_at', 'recurs', 'nest_id']
         })
-    }
+        .then(dbRecord => JSON.parse(JSON.stringify(dbRecord)))
+        .catch(err => {
+            console.log(err);
+            return;
+        });
 
     //if eventType is newUser, query user db for record
+    } else if (eventType === 'newUser') {
 
-//if eventType is newTask, get the recur value
+        record = await User.findOne({
+            where: {
+                id: recordId
+            },
+            attributes: ['id', 'created_at', 'nest_id']
+        })
+        .then(dbRecord => dbRecord.dataValues)
+        .catch(err => {
+            console.log(err);
+            return;
+        });
+        
+    } else {
+        console.log("invalid parameters, expected 'newTask' or  'newUser'");
+        return;
+    }
 
+    console.log("Input Task", record);
 
 //query the DB to get the new array of tasks sorted by creation date
+const taskArray = await Task.findAll({
+    where: {
+        nest_id: record.nest_id
+    },
+    order: [ ['created_at','ASC'] ]
+})
+.then(taskDbData => JSON.parse(JSON.stringify(taskDbData)))
+.catch(err => {
+    console.log(err);
+    return;
+});
+
+console.log('Task Array',taskArray);
 
 //query the DB to get new array of users sorted by creation date
+const userArray = await User.findAll({
+    where: {
+        nest_id: record.nest_id
+    },
+    order: [ ['created_at','ASC'] ]
+})
+.then(userDbData => JSON.parse(JSON.stringify(userDbData)))
+.catch(err => {
+    console.log(err);
+    return;
+});
+
+console.log('User Array',userArray);
 
 //query the DB to get the the array of assignments for the past 31 days (this covers daily weekly and monthly)
+
 
 //create roundRobin instance from tasks and users
 
@@ -73,3 +126,6 @@ let record = null;
 
     //bulk create the new assignments in the DB
 };
+
+
+updateRoundRobin(8, 'newTask');
