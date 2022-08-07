@@ -80,7 +80,7 @@ const userArray = await User.findAll({
 console.log('User Array',userArray);
 
 //query the DB to get the the array of assignments for the past 31 days (this covers daily weekly and monthly)
-
+const createdDateMinus31 = '';
 
 //create roundRobin instance from tasks and users
 
