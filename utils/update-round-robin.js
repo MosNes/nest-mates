@@ -1,12 +1,22 @@
 //When a new task is created or a new user is added to the nest, the future round robin assignments need to be recalculated
 
+const { Task } = require("../models");
+
 //TRIGGER: when a new task is created or a new user is added to the nest
 // params are recordId and eventType
 //recordId should be the id of the new task or user record. eventType should be 'newTask' or 'newUser'
-const updateRoundRobin = async (recordId, eventType) {
+const updateRoundRobin = async (recordId, eventType) => {
 
 //get the date of the task creation or user creation
+let createdAtDate = null;
+let record = null;
+
     //if eventType is newTask, query task db for record
+    if (eventType === 'newTask') {
+        record = await Task.findOne({
+            attributes: ['id', 'created']
+        })
+    }
 
     //if eventType is newUser, query user db for record
 
