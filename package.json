@@ -7,6 +7,28 @@
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
     "mysql2": "^2.3.3",
+    "round-robin-js": "^3.0.3",
     "sequelize": "^6.21.3"
-  }
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "name": "nest-mates",
+  "description": "# Contributers",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MosNes/nest-mates.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MosNes/nest-mates/issues"
+  },
+  "homepage": "https://github.com/MosNes/nest-mates#readme"
 }
