@@ -42,6 +42,12 @@ const taskData = [
         task_description: 'Front and back yard',
         nest_id: 2,
         recurs: 'monthly'
+    },
+    {
+        task_name: 'Walk the Doggo',
+        task_description: 'At least 30min',
+        nest_id: 2,
+        recurs: 'daily'
     }
 ];
 
