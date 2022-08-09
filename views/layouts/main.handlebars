@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {{!-- for the main page layout --}}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
+  <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
   <title>Nest-Mates</title>
 </head>
 
@@ -26,7 +25,29 @@
 
 <body class="content">
     <main>
-        {{{ body }}}
+        <input type="date" data-display-mode="inline">
+        <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
+        <script> 
+            // Initialize all input of type date
+            var calendars = bulmaCalendar.attach('[type="date"]', options);
+
+            // Loop on each calendar initialized
+            for(var i = 0; i < calendars.length; i++) {
+	            // Add listener to select event
+	            calendars[i].on('select', date => {
+		            console.log(date);
+	            });
+            }
+
+            // To access to bulmaCalendar instance of an element
+            var element = document.querySelector('#my-element');
+            if (element) {
+	            // bulmaCalendar instance is available as element.bulmaCalendar
+	            element.bulmaCalendar.on('select', function(datepicker) {
+		            console.log(datepicker.data.value());
+	            });
+            }
+        </script>
     </main>
 </body>
 
@@ -56,39 +77,3 @@
         </div>
     </card>
 </footer>
-=======
-<!DOCTYPE>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Main Page</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
-    </head>
-    <body>
-       <input type="date" data-display-mode="inline">
-        <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
-        <script> 
-            // Initialize all input of type date
-            var calendars = bulmaCalendar.attach('[type="date"]', options);
-
-            // Loop on each calendar initialized
-            for(var i = 0; i < calendars.length; i++) {
-	            // Add listener to select event
-	            calendars[i].on('select', date => {
-		            console.log(date);
-	            });
-            }
-
-            // To access to bulmaCalendar instance of an element
-            var element = document.querySelector('#my-element');
-            if (element) {
-	            // bulmaCalendar instance is available as element.bulmaCalendar
-	            element.bulmaCalendar.on('select', function(datepicker) {
-		            console.log(datepicker.data.value());
-	            });
-            }
-        </script>
-    </body>
-</html>
->>>>>>> 8fbd68250c6ad2ff7b36825291499d3c1abe23d1
