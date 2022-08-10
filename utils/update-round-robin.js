@@ -50,10 +50,17 @@ const updateRoundRobin = async (recordId, eventType) => {
 	console.log('Input Task', record);
 
 	//query the DB to get the new array of tasks sorted by creation date
+	const taskWhere = await {
+		nest_id: record.nest_id
+	};
+
+	//if eventType is newTask, search only for tasks that match the same recurs value as the new task
+	if (eventType === 'newTask') {
+		taskWhere.recurs = record.recurs
+	}
+
 	const taskArray = await Task.findAll({
-		where: {
-			nest_id: record.nest_id,
-		},
+		where: taskWhere,
 		order: [['created_at', 'ASC']],
 	})
 		.then((taskDbData) => JSON.parse(JSON.stringify(taskDbData)))
