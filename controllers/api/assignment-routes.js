@@ -153,3 +153,5 @@ router.put('/:id', (req, res) => {
 });
 
 //Delete Assignment?
+
+module.exports = router;
