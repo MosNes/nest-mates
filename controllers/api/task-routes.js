@@ -68,25 +68,15 @@ router.get('/nest/:id', (req, res) => {
 //create a task
 
 router.post('/', (req, res) => {
-    // expects {username: 'user', email: 'user@user.com', password: 'password'}
     Task.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        role: req.body.role,
-        nest_id: req.body.nest_id
+        task_name: req.body.task_name,
+        nest_id: req.body.nest_id,
+        task_description: req.body.task_description,
+        recurs: req.body.recurs
     })
         .then(dbTaskData => {
-            //creates session using the newly created task info
-            req.session.save(() => {
-                req.session.user_id = dbTaskData.id;
-                req.session.username = dbTaskData.username;
-                req.session.loggedIn = true;
-
-                res.json(dbTaskData);
-            });
+    
+        res.json(dbTaskData);
         })
         .catch(err => {
             console.log(err);
@@ -98,9 +88,12 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Task.update(
-      {
-        title: req.body.title
-      },
+        {
+        task_name: req.body.task_name,
+        nest_id: req.body.nest_id,
+        task_description: req.body.task_description,
+        recurs: req.body.recurs
+    },
       {
         where: {
           id: req.params.id
@@ -125,7 +118,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id',  (req, res) => {
     console.log('id', req.params.id);
-    Task.delete({
+    Task.destroy({
       where: {
         id: req.params.id
       }
