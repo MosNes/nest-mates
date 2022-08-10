@@ -8,17 +8,13 @@ const path = require('path');
 const express = require('express');
 const routes = require('./controllers/');
 const sequelize = require('./config/connection');
-
-//-------------------remove models variable after routes are created and imported-----------------
-const models = require('./models');
-
 //handlebars for express
 const exphbs = require('express-handlebars');
 //create the handlebars object and include the custom helper functions
 const hbs = exphbs.create({});
 //sessions for express, and connect-session-sequelize to write session data to the db using sequelize
 const session = require('express-session');
-const { truncate } = require('fs');
+// const { truncate } = require('fs');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const sess = {

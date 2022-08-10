@@ -156,7 +156,8 @@ router.post('/login', (req, res) => {
     }
 
     User.findOne({
-        where: whereCriteriaObj
+        where: whereCriteriaObj,
+        
     })
         .then(async dbUserData => {
             if (!dbUserData) {
@@ -177,6 +178,7 @@ router.post('/login', (req, res) => {
                 //declare session variables
                 req.session.user_id = dbUserData.id;
                 req.session.username = dbUserData.username;
+                req.session.nest_id = dbUserData.nest_id;
                 req.session.loggedIn = true;
 
                 res.json({ user: dbUserData, message: 'You are now logged in!' });

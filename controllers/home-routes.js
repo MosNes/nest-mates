@@ -62,7 +62,6 @@ router.get('/mynest', (req, res) => {
                 res.status(500).json(err);
             });
     });
-    res.render('mynest');
 
 
 module.exports= router;
