@@ -77,9 +77,9 @@ const monthlyTasksJSON = `[
 ]`
 const monthlyTasksArr = JSON.parse(monthlyTasksJSON);
 
-const dailyAssignmentData = formatAssignments(nestMateArr, dailyTasksArr, 'daily', new Date().toLocaleDateString(), 60);
-const weeklyAssignmentData = formatAssignments(nestMateArr, weeklyTasksArr, 'weekly', new Date().toLocaleDateString(), 8);
-const monthlyAssignmentData = formatAssignments(nestMateArr, monthlyTasksArr, 'monthly', new Date().toLocaleDateString(), 2);
+const dailyAssignmentData = formatAssignments(nestMateArr, dailyTasksArr, 'daily', '08/07/2022', 60);
+const weeklyAssignmentData = formatAssignments(nestMateArr, weeklyTasksArr, 'weekly', '08/08/2022', 8);
+const monthlyAssignmentData = formatAssignments(nestMateArr, monthlyTasksArr, 'monthly', '08/09/2022', 2);
 
 const seedDailyAssignment = () => Assignment.bulkCreate(dailyAssignmentData);
 const seedWeeklyAssignment = () => Assignment.bulkCreate(weeklyAssignmentData);

@@ -27,7 +27,7 @@ const formatAssignments = (
 
 	//create array of pairings of users and tasks
 	const pairings = roundRobin(nestMateArr, tasksArr, iterations);
-	console.log(pairings);
+	// console.log(pairings);
 
 	for (let i = 0; i < iterations; i++) {
         //create an assigment object from the pairings and add it to
