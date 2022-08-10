@@ -1,28 +1,27 @@
 
 <div class="content">
-    <main>
-      <input type="date" data-display-mode="inline">
-      <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
-      <script> 
-          // Initialize all input of type date
-          var calendars = bulmaCalendar.attach('[type="date"]', options);
+  <div class="calendar-container">
+    <div class="tabs">
+      <ul>
+        <li class="calendar-date"><a>Sun</a></li>
+        <li class="calendar-date"><a>Mon</a></li>
+        <li class="calendar-date"><a>Tues</a></li>
+        <li class="calendar-date"><a>Wed</a></li>
+        <li class="calendar-date"><a>Thurs</a></li>
+        <li class="calendar-date"><a>Fri</a></li>
+        <li class="calendar-date"><a>Sat</a></li>
+      </ul>
+    </div>
 
-          // Loop on each calendar initialized
-          for(var i = 0; i < calendars.length; i++) {
-	          // Add listener to select event
-	          calendars[i].on('select', date => {
-		          console.log(date);
-	          });
-          }
+    <div class="card">
+       <div class="card-content">
 
-          // To access to bulmaCalendar instance of an element
-          var element = document.querySelector('#my-element');
-          if (element) {
-	          // bulmaCalendar instance is available as element.bulmaCalendar
-	          element.bulmaCalendar.on('select', function(datepicker) {
-		          console.log(datepicker.data.value());
-	          });
-          }
-        </script>
+
+       </div>
+    </div>
+    
+       
+
+     </div>
     </main>
 </div>
