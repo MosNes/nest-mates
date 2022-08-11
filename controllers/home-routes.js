@@ -9,9 +9,20 @@ router.get("/", (req, res) => {
         return;
     }
 
-    res.render('homepage')
+    res.render('homepage');
 });
 
+//display login page
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/mynest');
+        return;
+    }
+    
+    res.render('loginpage');
+})
+
+//display myNest page
 router.get('/mynest', (req, res) => {
 
         Assignment.findAll({
