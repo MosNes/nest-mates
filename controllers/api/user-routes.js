@@ -148,17 +148,13 @@ router.post('/login', (req, res) => {
         var whereCriteriaObj = {
             email: req.body.identifier
         }
-        console.log("received email");
     //else, use object with username property for query
     } else {
         var whereCriteriaObj = {
             username: req.body.identifier
         }
-        console.log("received username");
-    }
-
-    console.log("request body", req.body);
-    console.log("criteria object", whereCriteriaObj);
+    
+    }  
 
     User.findOne({
         where: whereCriteriaObj,
