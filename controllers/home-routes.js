@@ -25,6 +25,11 @@ router.get('/login', (req, res) => {
 //display myNest page
 router.get('/mynest', (req, res) => {
 
+        if (!req.session.loggedIn) {
+            res.redirect('/login');
+            return;
+        }
+
         Assignment.findAll({
             where: {
                 nest_id: req.session.nest_id
@@ -51,19 +56,28 @@ router.get('/mynest', (req, res) => {
             ]
         })
             .then(dbAssignmentData => {
-                if (!dbAssignmentData) {
+                if (!dbAssignmentData[0]) {
                     res.status(404).json({ message: 'No assignment found with this id' });
+                    console.log("no assignments found")
                     return;
                 }
 
+                console.log("rendering mynest page")
                 //serialize the data into an array of objects
                 const assignments = dbAssignmentData.map( assignment => assignment.get({ plain: true }));
+                console.log(assignments)
+
+                const dailyAssignments = assignments.filter( assignment => assignment.task.recurs === 'daily');
+                const weeklyAssignments = assignments.filter( assignment => assignment.task.recurs === 'weekly');
+                const monthlyAssignments = assignments.filter( assignment => assignment.task.recurs === 'monthly');
+
+                console.log("monthly assignments", monthlyAssignments)
 
                 //pass array of formatted assignment objects to the mynest template
                 //session.loggedIn is passed to the template so the template can render
                 //differently depending on whether a user is logged in
                 res.render('mynest', {
-                    assignments,
+                    dailyAssignments, weeklyAssignments, monthlyAssignments,
                     loggedIn: req.session.loggedIn
                 })
 

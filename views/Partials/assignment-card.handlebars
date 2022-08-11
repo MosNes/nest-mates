@@ -1,0 +1,17 @@
+<div class="container column is-4">
+    <div class="card">
+        <div class="card-header p-3">
+            <div class="media-content">
+                <p class="title is-4">{{task.task_name}}</p>
+                <p class="subtitle is-6">{{date}}</p>
+            </div>
+        </div>
+        <div class="card-content">
+            <p>Assigned to: {{user.first_name}} {{user.last_name}}</p>
+            <p>{{task.task_description}}</p>
+        </div>
+        <div class="card-footer is-flex is-justify-content-end">
+            <button class="button is-primary">Complete Task</button>
+        </div>
+    </div>
+</div>

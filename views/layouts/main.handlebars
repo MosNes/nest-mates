@@ -3,47 +3,63 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <title>Nest-Mates</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>Nest-Mates</title>
 </head>
 
-<hero class="hero">
-    <hero-body>
-        <h1 class="h1">Nest-Mates<h1>
-        <h2 class="h2">The app that helps you organize household chores and hold others accountable for their messy habits!</h2>
-    </hero-body>
-</hero>
+<body>
+    <header class="p-3">
+        <nav class="navbar" role="navigation" aria-label="main-navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item is-size-4" href="/">Nest-Mates</a>
+            </div>
+            <div class="navbar-end p-3">
+                {{#if loggedIn}}
+                <button id="logout-btn" class="button is-secondary">Logout</button>
+                {{else}}
+                <a href="/signup" class="button is-primary is-medium is-responsive" id="sign-up-btn">
+                    <strong>Sign Up</strong>
+                </a>
+                <a href="/login" class="button is-light is-medium is-responsive" id="login-btn">
+                    Log In
+                </a>
+                {{/if}}
+            </div>
+        </nav>
+    </header>
+   
+    <main class="content">
+        {{{ body }}}
+    </main>
 
-<body class="content">
-    {{{ body }}}
+    <footer class="footer mt-5">
+        <card class="card">
+            <div class="block is-size-4">Contributors:</div>
+            <div class="block">
+                <strong>Forrest Ridgeway</strong> -
+                <a href="https://github.com/cmon-theres-gotta-be-a-name-available">Github</a>
+
+            </div>
+            <!-- Add your git url and name here -->
+            <div class="block">
+                <strong>Jay Burkholder</strong> -
+                <a href="https://github.com/JaySBurkholder">Github</a>
+
+            </div>
+            <div class="block">
+                <strong>Diego Rodriguez</strong> -
+                <a href="https://github.com/diegorodd">Github</a>
+
+            </div>
+            <div class="block">
+                <strong>Moses Nester</strong> -
+                <a href="https://github.com/mosnes">Github</a>
+
+            </div>
+        </card>
+    </footer>
+    <script src="/javascript/logout.js"></script>
 </body>
-
-<footer class="footer mt-5">
-    <card class="card">
-        <div class="block is-size-4">Contributors:</div> 
-        <div class="block">
-            <strong>Forrest Ridgeway</strong> - 
-            <a href="https://github.com/cmon-theres-gotta-be-a-name-available">Github</a>
-
-        </div>
-        <!-- Add your git url and name here -->
-        <div class="block">
-            <strong>Jay Burkholder</strong> - 
-            <a href="https://github.com/JaySBurkholder">Github</a>
-            
-        </div>
-        <div class="block">
-            <strong>Diego Rodriguez</strong> - 
-            <a href="https://github.com/diegorodd">Github</a>
-
-        </div>
-        <div class="block">
-            <strong>Moses Nester</strong> - 
-            <a href="https://github.com/mosnes">Github</a>
-
-        </div>
-    </card>
-</footer>
