@@ -3,13 +3,13 @@
     <div class="block is-size-3 p-4">{{nestData.nest_name}}</div>
     <div class="block is-size-4 has-text-primary has-text-weight-semibold p-4">Share ID: {{nestData.share_id}}</div>
     <div class="columns p-4">
-        <div id="nest-info-card" class="column card is-5">
+        <div id="nest-info-card" class="column card is-3">
             <div class="title is-size-5">Nest Info</div>
             <div>{{nestData.street}}</div>
             <div>{{nestData.city}}, {{nestData.state}}</div>
             <div>{{nestData.zip}}</div>
         </div>
-        <div id="nestmates-card" class="column card is-5">
+        <div id="nestmates-card" class="column card is-6">
             <div class="title is-size-5">Nest-Mates</div>
             {{#each nestmates as |nestmate|}}
             <div>{{nestmate.first_name}} {{nestmate.last_name}} - <a
@@ -17,7 +17,7 @@
             {{/each}}
 
         </div>
-        <div id="nest-actions-card" class="column card is-2">
+        <div id="nest-actions-card" class="column card is-3">
             <div class="title is-size-5">Actions</div>
             <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-primary">Add Task</button></div>
             <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-info">Update nest Info</button></div>
