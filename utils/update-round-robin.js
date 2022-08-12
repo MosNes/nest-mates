@@ -283,6 +283,6 @@ const updateRoundRobin = async (recordId, eventType) => {
 	}
 }
 
-updateRoundRobin(8, 'newUser');
+// updateRoundRobin(8, 'newUser');
 
 module.exports = updateRoundRobin;

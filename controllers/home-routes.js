@@ -11,7 +11,9 @@ router.get("/", (req, res) => {
         return;
     }
 
-    res.render('homepage');
+    res.render('homepage', {
+        loggedIn: req.session.loggedIn
+    });
 });
 
 //display login page
@@ -77,7 +79,7 @@ router.get('/mynest', async (req, res) => {
         });
 
     //do something if no assignments are found
-    console.log(assignmentData)
+    // console.log(assignmentData)
     if (!assignmentData) {
         console.log("nothing found")
         return;
@@ -97,7 +99,7 @@ router.get('/mynest', async (req, res) => {
     && moment(assignment.date) <= moment().add(3, 'months')
     && moment(assignment.date) >= moment() );
 
-    console.log("monthly assignments", monthlyAssignments)
+    // console.log("monthly assignments", monthlyAssignments)
 
     //get nest data
     const nestData = await Nest.findOne({
@@ -123,7 +125,7 @@ router.get('/mynest', async (req, res) => {
         
         //serialize the nest data into an object
         const nestData = dbNestData.get({ plain: true });
-        console.log(nestData);
+        // console.log(nestData);
         return nestData;
     })
     .catch(err => {
@@ -147,7 +149,7 @@ router.get('/mynest', async (req, res) => {
         
         //serialize the user data into an array of objects
         const users = dbUserData.map(user => user.get({ plain: true }));
-        console.log(users)
+        // console.log(users)
         return users;
     
     })
@@ -158,8 +160,9 @@ router.get('/mynest', async (req, res) => {
 
 
     //pass array of formatted assignment objects to the mynest template
+    console.log("Logged In Status: ",req.session.loggedIn);
     res.render('mynest', {
-        dailyAssignments, weeklyAssignments, monthlyAssignments, nestData, nestmates
+        dailyAssignments, weeklyAssignments, monthlyAssignments, nestData, nestmates, loggedin: req.session.loggedIn
     })
 });
 
