@@ -1,29 +1,58 @@
-<div id="mynest-cards">
-<div class="box m-4">
-    <h4 class="title is-4">Monthly Assignments</h4>
-    <div class="columns is-multiline p-3">
-        {{#each monthlyAssignments as |mAssignment|}}
-        {{>assignment-card mAssignment}}
-        {{/each}}
-    </div>
-</div>
+<section id="mynest-info p-3">
+    <div class="title has-background-primary has-text-light p-4">My Nest</div>
+    <div class="block is-size-3 p-4">{{nestData.nest_name}}</div>
+    <div class="block is-size-4 has-text-primary has-text-weight-semibold p-4">Share ID: {{nestData.share_id}}</div>
+    <div class="columns p-4">
+        <div id="nest-info-card" class="column card is-5">
+            <div class="title is-size-5">Nest Info</div>
+            <div>{{nestData.street}}</div>
+            <div>{{nestData.city}}, {{nestData.state}}</div>
+            <div>{{nestData.zip}}</div>
+        </div>
+        <div id="nestmates-card" class="column card is-5">
+            <div class="title is-size-5">Nest-Mates</div>
+            {{#each nestmates as |nestmate|}}
+            <div>{{nestmate.first_name}} {{nestmate.last_name}} - <a
+                    href="mailto:{{nestmate.email}}">{{nestmate.email}}</a></div>
+            {{/each}}
 
-<div class="box m-4">
-    <h4 class="title is-4">Weekly Assignments</h4>
-    <div class="columns is-multiline p-3">
-        {{#each weeklyAssignments as |wAssignment|}}
-        {{>assignment-card wAssignment}}
-        {{/each}}
-    </div>
-</div>
+        </div>
+        <div id="nest-actions-card" class="column card is-2">
+            <div class="title is-size-5">Actions</div>
+            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-primary">Add Task</button></div>
+            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-info">Update nest Info</button></div>
+            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-danger">Leave Nest</button></div>
 
-<div class="box m-4">
-    <h4 class="title is-4">Daily Assignments</h4>
-    <div class="columns is-multiline p-3">
-        {{#each dailyAssignments as |dAssignment|}}
-        {{>assignment-card dAssignment}}
-        {{/each}}
+        </div>
     </div>
-</div>
-</div>
+</section>
+
+<section id="mynest-cards">
+    <div class="box m-4">
+        <h4 class="title is-4">Monthly Assignments</h4>
+        <div class="columns is-multiline p-3">
+            {{#each monthlyAssignments as |mAssignment|}}
+            {{>assignment-card mAssignment}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="box m-4">
+        <h4 class="title is-4">Weekly Assignments</h4>
+        <div class="columns is-multiline p-3">
+            {{#each weeklyAssignments as |wAssignment|}}
+            {{>assignment-card wAssignment}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="box m-4">
+        <h4 class="title is-4">Daily Assignments</h4>
+        <div class="columns is-multiline p-3">
+            {{#each dailyAssignments as |dAssignment|}}
+            {{>assignment-card dAssignment}}
+            {{/each}}
+        </div>
+    </div>
+</section>
 <script src="/javascript/complete.js"></script>
