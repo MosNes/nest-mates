@@ -37,7 +37,7 @@ router.get('/mynest', async (req, res) => {
     const assignmentData = await Assignment.findAll({
         where: {
             nest_id: req.session.nest_id,
-            date: {[Op.lt]: moment().add(30, 'days')}
+            date: {[Op.lt]: moment().add(45, 'days')}
         },
         attributes: [
             'id',
