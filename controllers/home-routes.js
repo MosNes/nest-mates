@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { Task, Assignment, User, Nest } = require('../models');
+const {Op} = require('sequelize');
+const moment = require('moment');
 
 //display homepage
 //if user is logged in, redirect to myNest page
@@ -31,10 +33,11 @@ router.get('/mynest', async (req, res) => {
         return;
     }
 
-    //get assignment data for the user's nest
+    //get assignment data for the user's nest 45 days into the future
     const assignmentData = await Assignment.findAll({
         where: {
-            nest_id: req.session.nest_id
+            nest_id: req.session.nest_id,
+            date: {[Op.lt]: moment().add(30, 'days')}
         },
         attributes: [
             'id',
@@ -81,9 +84,18 @@ router.get('/mynest', async (req, res) => {
     }
 
     //filter assignment data into daily, weekly, and monthly arrays
-    const dailyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'daily');
-    const weeklyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'weekly');
-    const monthlyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'monthly');
+    //daily assignments grabs only the next 3 days
+    const dailyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'daily' 
+    && moment(assignment.date) <= moment().add(3, 'days')
+    && moment(assignment.date) >= moment() );
+    //weekly assignments grabs only the next 3 weeks
+    const weeklyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'weekly'
+    && moment(assignment.date) <= moment().add(3, 'weeks')
+    && moment(assignment.date) >= moment() );
+    //monthly assignments grabs only the next 3 months
+    const monthlyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'monthly'
+    && moment(assignment.date) <= moment().add(3, 'months')
+    && moment(assignment.date) >= moment() );
 
     console.log("monthly assignments", monthlyAssignments)
 
