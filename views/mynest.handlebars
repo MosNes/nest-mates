@@ -1,0 +1,26 @@
+<div class="box m-4">
+    <h4 class="title is-4">Monthly Assignments</h4>
+    <div class="columns is-multiline p-3">
+        {{#each monthlyAssignments as |mAssignment|}}
+        {{>assignment-card mAssignment}}
+        {{/each}}
+    </div>
+</div>
+
+<div class="box m-4">
+    <h4 class="title is-4">Weekly Assignments</h4>
+    <div class="columns is-multiline p-3">
+        {{#each weeklyAssignments as |wAssignment|}}
+        {{>assignment-card wAssignment}}
+        {{/each}}
+    </div>
+</div>
+
+<div class="box m-4">
+    <h4 class="title is-4">Daily Assignments</h4>
+    <div class="columns is-multiline p-3">
+        {{#each dailyAssignments as |dAssignment|}}
+        {{>assignment-card dAssignment}}
+        {{/each}}
+    </div>
+</div>

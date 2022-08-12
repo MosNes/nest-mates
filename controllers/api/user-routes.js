@@ -2,7 +2,6 @@
 
 //------------DEPENDENCIES AND GLOBAL VARIABLES------------------------------
 const router = require("express").Router();
-const e = require("express");
 const { User, Nest } = require("../../models");
 
 //Get All Users
@@ -93,6 +92,7 @@ router.put("/:id", (req, res) => {
       password: req.body.password,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
+      role: req.body.role
     },
     {
       individualHooks: true,
@@ -153,14 +153,18 @@ router.post('/login', (req, res) => {
         var whereCriteriaObj = {
             username: req.body.identifier
         }
-    }
+    
+    }  
 
     User.findOne({
-        where: whereCriteriaObj
+        where: whereCriteriaObj,
+        
     })
         .then(async dbUserData => {
+          console.log("User Data", dbUserData);
             if (!dbUserData) {
                 res.status(400).json({ message: 'No user found with that email address or username!' });
+                console.log("no user found")
                 return;
             }
 
@@ -169,6 +173,7 @@ router.post('/login', (req, res) => {
 
             if (!validPassword) {
                 res.status(400).json({ message: "Incorrect Password!" });
+                console.log("wrong password")
                 return;
             }
 
@@ -177,6 +182,8 @@ router.post('/login', (req, res) => {
                 //declare session variables
                 req.session.user_id = dbUserData.id;
                 req.session.username = dbUserData.username;
+                req.session.nest_id = dbUserData.nest_id;
+                req.session.role = dbUserData.role;
                 req.session.loggedIn = true;
 
                 res.json({ user: dbUserData, message: 'You are now logged in!' });
