@@ -69,8 +69,6 @@ const updateRoundRobin = async (recordId, eventType) => {
 			return;
 		});
 
-	console.log('Task Array', taskArray);
-
 	//query the DB to get new array of users sorted by creation date
 	const userArray = await User.findAll({
 		where: {
@@ -115,14 +113,14 @@ const updateRoundRobin = async (recordId, eventType) => {
 			return;
 		});
 
-	console.log('Assignment Array', assignmentArray);
-
 	//create roundRobin instance from tasks and users
-	const taskTable = new SequentialRoundRobin(taskArray);
 	const userTable = new SequentialRoundRobin(userArray);
 
 	//if the eventType is newTask
 	if (eventType === 'newTask') {
+		//create round robin object from taskArray
+		const taskTable = new SequentialRoundRobin(taskArray);
+
 		//get the id of the last user who was assigned given an assignment of the same type ('daily', 'weekly', 'monthly')
 		//this will allow us to calculate who in the array should receive the next assignment
 		const filteredAssignmentArr = assignmentArray
@@ -176,7 +174,7 @@ const updateRoundRobin = async (recordId, eventType) => {
 
         //create empty array to hold formatted assignments
         const formattedAssignments = [];
-        let startDateObj = moment(record.created_at, 'MM-DD-YYYY')
+        let startDateObj = moment(record.created_at);
         const taskLimit = taskArray.length;
     
 		//format pairings into array of assignment records
@@ -184,18 +182,18 @@ const updateRoundRobin = async (recordId, eventType) => {
             //create an assigment object from the pairings and add it to
             //the formattedAssignments array
             formattedAssignments.push({
-                date: moment(startDateObj).format('M/D/YYYY'),
+                date: moment(startDateObj).format('YYYY-MM-DD'),
                 task_id: pairings[i][1].id,
                 user_id: pairings[i][0].id,
                 nest_id: pairings[i][1].nest_id,
             });
     
-            if (taskType === 'daily') {
+            if (record.recurs === 'daily') {
                 if ((i + 1) % taskLimit === 0) {
                     //whenever the taskLimit is reached, add 1 day
                     startDateObj.add(1, 'days');
                 }
-            } else if (taskType === 'weekly') {
+            } else if (record.recurs === 'weekly') {
                 if ((i + 1) % taskLimit === 0) {
                     //whenever the taskLimit is reached, add 1 week
                     startDateObj.add(1, 'weeks');
@@ -211,21 +209,67 @@ const updateRoundRobin = async (recordId, eventType) => {
 		//bulk create the new assignments in the DB
         Assignment.bulkCreate(formattedAssignments);
 
-	}
 	//if the eventType is newUser
+	} else {
+	
 
 	//remove all assignment records from the DB that come after createAt date of new record
+	const deleteRecordResponse = await sequelize.query(`
+        DELETE assignment
+        FROM assignment
+        LEFT JOIN task on assignment.task_id = task.id
+        WHERE assignment.date > '${moment(record.created_at).format('YYYY-MM-DD')}';`);
+        // console.log('Delete Record Resp', deleteRecordResponse);
 
-	//cycle thru the roundRobin of all users i times, where i = array.length -2
+	//cycle thru the roundRobin of all users i times, where i = array.length -1
 	//this will force the .next() user to be the newUser
+	for (i = 0; i < userArray.length-1; i++) {
+		userTable.next();
+		}
+	
+
+	//create empty array to hold new assignment pairs
+	const pairings = [];
 
 	//create pairings of daily tasks and users starting with newUser
 	//filter taskArray for daily tasks
+	const dailyTaskArr = taskArray.filter((task) => task.recurs === 'daily');
+	//create roundRobin object for daily tasks
+	const dailyTaskTable = new SequentialRoundRobin(dailyTaskArr);
 	//create pairings
-
+	for (let i = 0; i < 365; i++) {
+		//pair the next user with the next task
+		// [this user, this task]
+		pairings.push([
+			userTable.next().value,
+			dailyTaskTable.next().value,
+		]);
+	}
+	//reset the roundRobin array
+	userTable.reset();
+	for (i = 0; i < userArray.length-1; i++) {
+		userTable.next();
+		}
+	
 	//create pairings of weekly tasks and users starting with newUser
-	//filter taskArray for weekly tasks
+	//filter taskArray for daily tasks
+	const weeklyTaskArr = taskArray.filter((task) => task.recurs === 'weekly');
+	//create roundRobin object for daily tasks
+	const weeklyTaskTable = new SequentialRoundRobin(weeklyTaskArr);
 	//create pairings
+	for (let i = 0; i < 52; i++) {
+		//pair the next user with the next task
+		// [this user, this task]
+		pairings.push([
+			userTable.next().value,
+			weeklyTaskTable.next().value,
+		]);
+	}
+	//reset the roundRobin array
+	userTable.reset();
+	for (i = 0; i < userArray.length-1; i++) {
+		userTable.next();
+		}
 
 	//create pairings of monthly tasks and users starting with newUser
 	//filter taskArray for monthly tasks
@@ -236,6 +280,9 @@ const updateRoundRobin = async (recordId, eventType) => {
 	//format pairings into array of assignment records
 
 	//bulk create the new assignments in the DB
-};
+	}
+}
 
-updateRoundRobin(8, 'newTask');
+updateRoundRobin(8, 'newUser');
+
+module.exports = updateRoundRobin;

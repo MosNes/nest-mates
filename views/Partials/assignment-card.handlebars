@@ -1,4 +1,4 @@
-<div class="container column is-4">
+<div id="card-{{assignment.id}}" class="container column is-4">
     <div class="card">
         <div class="card-header p-3">
             <div class="media-content">
@@ -11,7 +11,7 @@
             <p>{{task.task_description}}</p>
         </div>
         <div class="card-footer is-flex is-justify-content-end">
-            <button class="button is-primary">Complete Task</button>
+            <button  data-button="complete-btn" id="complete-btn-{{assignment.id}}" class="button is-primary complete-btn">Complete Task</button>
         </div>
     </div>
 </div>
