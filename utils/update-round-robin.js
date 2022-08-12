@@ -176,7 +176,7 @@ const updateRoundRobin = async (recordId, eventType) => {
 
         //create empty array to hold formatted assignments
         const formattedAssignments = [];
-        let startDateObj = moment(record.created_at, 'MM-DD-YYYY')
+        let startDateObj = moment(record.created_at);
         const taskLimit = taskArray.length;
     
 		//format pairings into array of assignment records
@@ -184,18 +184,18 @@ const updateRoundRobin = async (recordId, eventType) => {
             //create an assigment object from the pairings and add it to
             //the formattedAssignments array
             formattedAssignments.push({
-                date: moment(startDateObj).format('M/D/YYYY'),
+                date: moment(startDateObj).format('YYYY-MM-DD'),
                 task_id: pairings[i][1].id,
                 user_id: pairings[i][0].id,
                 nest_id: pairings[i][1].nest_id,
             });
     
-            if (taskType === 'daily') {
+            if (record.recurs === 'daily') {
                 if ((i + 1) % taskLimit === 0) {
                     //whenever the taskLimit is reached, add 1 day
                     startDateObj.add(1, 'days');
                 }
-            } else if (taskType === 'weekly') {
+            } else if (record.recurs === 'weekly') {
                 if ((i + 1) % taskLimit === 0) {
                     //whenever the taskLimit is reached, add 1 week
                     startDateObj.add(1, 'weeks');
@@ -238,4 +238,6 @@ const updateRoundRobin = async (recordId, eventType) => {
 	//bulk create the new assignments in the DB
 };
 
-updateRoundRobin(8, 'newTask');
+// updateRoundRobin(9, 'newTask');
+
+module.exports = updateRoundRobin;

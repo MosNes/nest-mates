@@ -1,16 +1,7 @@
 const router = require('express').Router();
+const updateRoundRobin = require('../../utils/update-round-robin');
 
 const {Task, Nest} = require('../../models');
-
-
-// User.findAll({
-//   attributes: { exclude: ['password'] }
-// })
-//   .then(dbUserData => res.json(dbUserData))
-//   .catch(err => {
-//     console.log(err);
-//     res.status(500).json(err);
-//   });
 
 //Task Routes
 
@@ -75,7 +66,8 @@ router.post('/', (req, res) => {
         recurs: req.body.recurs
     })
         .then(dbTaskData => {
-    
+        //re-calculate round-robin and recreate assignment records including the new task
+        updateRoundRobin(dbTaskData.dataValues.id, 'newTask')
         res.json(dbTaskData);
         })
         .catch(err => {

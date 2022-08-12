@@ -1,6 +1,7 @@
 //Assignment Routes
 const router = require('express').Router();
 
+
 const {Task, Assignment, User} = require('../../models');
 
 //get assignment by ID
@@ -122,8 +123,6 @@ router.get('/user/:user_id', (req, res) => {
             res.status(500).json(err);
         });
 });
-
-//bulk create assignments from array of pairings? 
 
 //update assignment
 router.put('/:id', (req, res) => {
