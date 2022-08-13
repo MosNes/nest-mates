@@ -1,4 +1,4 @@
-<section id="mynest-info p-3">
+<section id="mynest-info" data-nest-id="{{nestData.id}}">
     <div class="title has-background-primary has-text-light p-4">My Nest</div>
     <div class="block is-size-3 p-4">{{nestData.nest_name}}</div>
     <div class="block is-size-4 has-text-primary has-text-weight-semibold p-4">Share ID: {{nestData.share_id}}</div>
@@ -19,9 +19,9 @@
         </div>
         <div id="nest-actions-card" class="column card is-3">
             <div class="title is-size-5">Actions</div>
-            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-primary">Add Task</button></div>
-            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-info">Update nest Info</button></div>
-            <div class="m-1"><button class="button is-fullwidth has-text-weight-semibold is-danger">Leave Nest</button></div>
+            <div class="m-1"><button id="add-task-btn" class="button is-fullwidth has-text-weight-semibold is-primary">Add Task</button></div>
+            <div class="m-1"><button id="update-nest-btn" class="button is-fullwidth has-text-weight-semibold is-info">Update Nest Info</button></div>
+            <div class="m-1"><button id="leave-nest-btn" class="button is-fullwidth has-text-weight-semibold is-danger">Leave Nest</button></div>
 
         </div>
     </div>
@@ -54,5 +54,17 @@
             {{/each}}
         </div>
     </div>
+
+    <div id="add-task-modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                {{>addtask}}
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
 </section>
+<script src="/javascript/mynest.js"></script>
 <script src="/javascript/complete.js"></script>
