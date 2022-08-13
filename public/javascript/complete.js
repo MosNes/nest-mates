@@ -8,7 +8,7 @@ async function complete(event) {
 
 }
 
-
+document.getElementById("mynest-cards").addEventListener("click", complete);
 
 
 

@@ -1,6 +1,6 @@
 //------------HTML ELEMENTS-----------------
 const taskModal = $('#add-task-modal');
-
+const updateModal = $('#Update-Nest-Info-modal');
 //---------FUNCTIONS----------------------
 
 //shows modal when Add Task is clicked
@@ -12,7 +12,8 @@ function addTaskHandler(event) {
 //shows modal when Update Nest Info is clicked
 function updateNestInfoHandler(event) {
     event.preventDefault();
-    
+    console.log("click");
+    updateModal.addClass('is-active');
 }
 
 //shows modal when Leave Nest is clicked
