@@ -1,5 +1,4 @@
 //-------FUNCTIONS---------
-
 async function handleFormSubmit(event) {
     event.preventDefault();
     console.log("wooo")
@@ -26,47 +25,56 @@ async function handleFormSubmit(event) {
             headers: { 'Content-Type': 'application/json' }
         });
 
-        console.log(response);
+        //if user creation failed, throw error and stop
+        if (!response.ok) {
+            alert(response.statusText);
+                console.log(response);
+                return;
+        }
 
-        if (response.ok && share_id) {
+        //get user Id from response
+        const result = await response.json()
+        const user_id = result.id;
+        console.log("user ID: ", user_id)
 
-            const user_id = response.json().id;
+        //if share_id was provided, look up nest by share ID
+        if (share_id) {
+            const nestLookup = await fetch(`/api/nests/share/${share_id}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json'}
+            });
+    
+            //if nestlookup failed, throw error and stop
+            if(!nestLookup.ok){
+                alert(nestLookup.statusText);
+                console.log(nestLookup);
+                return;
+            }
+    
+            //get nest_id from response
+            const nestResult = await nestLookup.json();
+            const nest_id = nestResult.id;
+    
+            //call the API route to add user to nest
+            const nestAddResponse = await fetch('/api/nests/add-user/', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    nest_id,
+                    user_id
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
 
-            const nestQueryResponse = await fetch(`/api/nests/share/${share_id}`,
-                {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-
-            if (nestQueryResponse.ok) {
-                const nest_id = nestQueryResponse.json().id;
-
-                const addUserResponse = await fetch('/api/nests/add-user/', {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        user_id,
-                        nest_id
-                    }),
-                    headers: {'Content-Type': 'application/json'}
-                });
-
-                if (addUserResponse.ok) {
-                    document.replace('/')
-                } else {
-                    alert(addUserResponse.statusText);
-                    console.log(addUserResponse);
-                }
-
-            } else {
-                alert(nestQueryResponse.statusText);
-                console.log(nestQueryResponse);
+            //if nestAdd fails, throw error and stop
+            if (!nestAddResponse.ok){
+                alert(nestAddResponse.statusText);
+                console.log(nestAddResponse);
+                return;
             }
 
-        } else if (response.ok) {
-            document.location.replace('/')
-        } else {
-            alert(response.statusText);
-            console.log(response);
+            console.log(await nestAddResponse.json());
+
+            document.location.replace('/mynest');
         }
     }
 

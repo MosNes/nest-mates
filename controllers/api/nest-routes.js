@@ -127,6 +127,10 @@ router.post('/', (req, res) => {
 
 //Add User to Nest
 router.put('/add-user', (req, res)=> {
+
+    const user_id = req.body.user_id;
+    const nest_id = req.body.nest_id;
+
     //expects {nest_id: 'nest id', user_id: 'user's id'}
     User.update(
         {
@@ -138,13 +142,17 @@ router.put('/add-user', (req, res)=> {
             }
         }
     )
-    .then(dbUserData => {
+    .then((dbUserData) => {
         if (!dbUserData) {
             res.status(400).json({ message: 'No user found with that ID' })
             return;
         }
-        //re-calculate round-robin and reacreate assignment records to include the new user
-        updateRoundRobin(req.body.user_id, 'newUser')
+        //re-calculate assignments with new user
+        updateRoundRobin(user_id, 'newUser');
+
+        //save nest ID to user's session
+        req.session.nest_id = nest_id;
+        
         res.json(dbUserData);
     })
     .catch(err => {
