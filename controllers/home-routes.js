@@ -162,7 +162,7 @@ router.get('/mynest', async (req, res) => {
     //pass array of formatted assignment objects to the mynest template
     console.log("Logged In Status: ",req.session.loggedIn);
     res.render('mynest', {
-        dailyAssignments, weeklyAssignments, monthlyAssignments, nestData, nestmates, loggedin: req.session.loggedIn
+        dailyAssignments, weeklyAssignments, monthlyAssignments, nestData, nestmates, loggedIn: req.session.loggedIn
     })
 });
 
