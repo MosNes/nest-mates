@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Task, Assignment, User, Nest } = require('../models');
-const {Op} = require('sequelize');
+const {Op, EmptyResultError} = require('sequelize');
 const moment = require('moment');
 
 //display homepage
@@ -26,12 +26,37 @@ router.get('/login', (req, res) => {
     res.render('loginpage');
 })
 
+//display signup page
+router.get('/signup', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/mynest');
+        return;
+    }
+
+    res.render('signup');
+})
+
+//display create nest page
+router.get('/newnest', (req, res) => {
+    if (req.session.nest_id){
+        res.redirect('/mynest');
+        return;
+    }
+
+    res.render('nestcreate', {loggedIn: req.session.loggedIn});
+})
+
 //display myNest page
 router.get('/mynest', async (req, res) => {
 
     //if user is not logged in, redirect to login page
     if (!req.session.loggedIn) {
         res.redirect('/login');
+        return;
+    }
+
+    if (!req.session.nest_id){
+        res.redirect('/newnest');
         return;
     }
 

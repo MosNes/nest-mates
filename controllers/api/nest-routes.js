@@ -49,6 +49,34 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//Get Nest by Share ID
+router.get('/share/:id', (req, res) => {
+    Nest.findOne({
+        where: {
+            share_id: req.params.id
+        },
+        attributes: [
+            'id',
+            'nest_name',
+            'street',
+            'city',
+            'state',
+            'zip'
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'username', 'email', 'first_name','last_name', 'role']
+            },
+        ]
+    })
+    .then(dbNestData => res.json(dbNestData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
 //Get Daily, Weekly, or Monthly tasks by Nest ID -- REQUIRES AUTH
 router.post('/tasks/', (req, res) => {
     //expects {nest_id: 'id', task_type: 'daily OR weekly OR monthly'}
