@@ -1,0 +1,30 @@
+<form class="form">
+    <div class="field">
+        <label class="label">Update Task Name</label>
+        <div class="control">
+            <input id="task-name" class="input" type="text" placeholder="Enter a short name for the task">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Update Task Description</label>
+        <div class="control">
+            <textarea id="task-desc" class="input" placeholder="Enter a short description of the task"></textarea>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">How Often Should the Task Repeat?</label>
+        <div class="control">
+            <div class="select">
+                <select id="recurs">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="submit-task-btn" class="control mt-6">
+        <button class="button is-primary">Submit Update</button>
+        <button class="button is-danger cancel-modal">Cancel</button>
+    </div>
+</form>
