@@ -11,7 +11,7 @@ const assignmentRoutes = require('./assignment-routes');
 //use userRoutes for any request starting with /users/
 router.use('/users', userRoutes);
 router.use('/nests', nestRoutes);
-router.use('assignments', assignmentRoutes);
+router.use('/assignments', assignmentRoutes);
 router.use('/tasks', taskRoutes);
 
 module.exports = router;

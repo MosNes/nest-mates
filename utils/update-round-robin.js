@@ -7,6 +7,7 @@ const moment = require('moment');
 const { Op } = require('sequelize');
 const { SequentialRoundRobin } = require('round-robin-js');
 const sequelize = require('../config/connection');
+const { formatAssignmentsFromPairs } = require('./format-assignments')
 
 //TRIGGER: when a new task is created or a new user is added to the nest
 // params are recordId and eventType
@@ -227,9 +228,9 @@ const updateRoundRobin = async (recordId, eventType) => {
 		userTable.next();
 		}
 	
-
-	//create empty array to hold new assignment pairs
-	const pairings = [];
+	//----------DAILY ASSIGNMENTS-------------------------------
+	//create empty array to hold new daily assignment pairs
+	const dailyPairings = [];
 
 	//create pairings of daily tasks and users starting with newUser
 	//filter taskArray for daily tasks
@@ -240,16 +241,22 @@ const updateRoundRobin = async (recordId, eventType) => {
 	for (let i = 0; i < 365; i++) {
 		//pair the next user with the next task
 		// [this user, this task]
-		pairings.push([
+		dailyPairings.push([
 			userTable.next().value,
 			dailyTaskTable.next().value,
 		]);
 	}
+	const dailyAssignments = formatAssignmentsFromPairs(dailyPairings, 'daily', record.created_at, 365, dailyTaskArr.length);
+
 	//reset the roundRobin array
 	userTable.reset();
 	for (i = 0; i < userArray.length-1; i++) {
 		userTable.next();
 		}
+	
+	//----------WEEKLY ASSIGNMENTS-----------------
+	//create empty array to hold new weekly assignment pairs
+	const weeklyPairings = [];
 	
 	//create pairings of weekly tasks and users starting with newUser
 	//filter taskArray for daily tasks
@@ -260,26 +267,51 @@ const updateRoundRobin = async (recordId, eventType) => {
 	for (let i = 0; i < 52; i++) {
 		//pair the next user with the next task
 		// [this user, this task]
-		pairings.push([
+		weeklyPairings.push([
 			userTable.next().value,
 			weeklyTaskTable.next().value,
 		]);
 	}
+	const weeklyAssignments = formatAssignmentsFromPairs(weeklyPairings, 'weekly', record.created_at, 52, weeklyTaskArr.length);
+
+	//reset the roundRobin array
+	userTable.reset();
+	for (i = 0; i < userArray.length-1; i++) {
+		userTable.next();
+		}
+	
+	//---------MONTHLY ASSIGNMENTS------------------------
+	//create empty array to hold new monthly assignment pairs
+	const monthlyPairings = [];
+	
+	//create pairings of monthly tasks and users starting with newUser
+	//filter taskArray for daily tasks
+	const monthlyTaskArr = taskArray.filter((task) => task.recurs === 'monthly');
+	//create roundRobin object for daily tasks
+	const monthlyTaskTable = new SequentialRoundRobin(monthlyTaskArr);
+	//create pairings
+	for (let i = 0; i < 52; i++) {
+		//pair the next user with the next task
+		// [this user, this task]
+		monthlyPairings.push([
+			userTable.next().value,
+			monthlyTaskTable.next().value,
+		]);
+	}
+	const monthlyAssignments = formatAssignmentsFromPairs(monthlyPairings, 'monthly', record.created_at, 12, monthlyTaskArr.length);
+
 	//reset the roundRobin array
 	userTable.reset();
 	for (i = 0; i < userArray.length-1; i++) {
 		userTable.next();
 		}
 
-	//create pairings of monthly tasks and users starting with newUser
-	//filter taskArray for monthly tasks
-	//create pairings
-
 	//combine arrays
-
-	//format pairings into array of assignment records
+	const formattedAssignments = dailyAssignments.concat(weeklyAssignments, monthlyAssignments);
 
 	//bulk create the new assignments in the DB
+	Assignment.bulkCreate(formattedAssignments);
+
 	}
 }
 
