@@ -1,6 +1,7 @@
 //Nest API CRUD Routes
 const router = require('express').Router();
 const { User, Nest, Task } = require('../../models');
+const updateRoundRobin = require('../../utils/update-round-robin');
 
 //Get all Nests
 router.get('/', (req, res) => {
@@ -114,6 +115,8 @@ router.put('/add-user', (req, res)=> {
             res.status(400).json({ message: 'No user found with that ID' })
             return;
         }
+        //re-calculate round-robin and reacreate assignment records to include the new user
+        updateRoundRobin(req.body.user_id, 'newUser')
         res.json(dbUserData);
     })
     .catch(err => {

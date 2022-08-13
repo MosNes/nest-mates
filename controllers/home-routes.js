@@ -39,7 +39,7 @@ router.get('/mynest', async (req, res) => {
     const assignmentData = await Assignment.findAll({
         where: {
             nest_id: req.session.nest_id,
-            date: {[Op.lt]: moment().add(45, 'days')}
+            date: {[Op.lt]: moment().add(62, 'days')}
         },
         attributes: [
             'id',
@@ -96,7 +96,7 @@ router.get('/mynest', async (req, res) => {
     && moment(assignment.date) >= moment() );
     //monthly assignments grabs only the next 3 months
     const monthlyAssignments = assignmentData.filter(assignment => assignment.task.recurs === 'monthly'
-    && moment(assignment.date) <= moment().add(3, 'months')
+    && moment(assignment.date) <= moment().add(62, 'days')
     && moment(assignment.date) >= moment() );
 
     // console.log("monthly assignments", monthlyAssignments)
