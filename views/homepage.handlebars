@@ -1,47 +1,3 @@
-{{!-- homepage view --}}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
-  <title>Nest-Mates</title>
-</head>
-
-
-<body class="content">
-    <main>
-      <input type="date" data-display-mode="inline">
-      <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
-      <script> 
-          // Initialize all input of type date
-          var calendars = bulmaCalendar.attach('[type="date"]', options);
-
-
-          // Loop on each calendar initialized
-          for(var i = 0; i < calendars.length; i++) {
-	          // Add listener to select event
-	          calendars[i].on('select', date => {
-		          console.log(date);
-	          });
-          }
-
-          // To access to bulmaCalendar instance of an element
-          var element = document.querySelector('#my-element');
-          if (element) {
-	          // bulmaCalendar instance is available as element.bulmaCalendar
-	          element.bulmaCalendar.on('select', function(datepicker) {
-		          console.log(datepicker.data.value());
-	          });
-          }
-        </script>
-    </main>
-</body>
-=======
  <hero class="hero p-3 m-3">
         <hero-body>
             <h2 class="h2 is-size-4">The app that helps you organize household chores and hold others accountable for their messy
@@ -51,7 +7,7 @@
 
 
 <div class="content">
-  <div class="calendar-container">
+  {{!-- <div class="calendar-container">
     <div class="tabs is-centered is-large is-fullwidth">
       <ul>
         <li class="calendar-date"><a>Sun</a></li>
@@ -63,6 +19,6 @@
         <li class="calendar-date"><a>Sat</a></li>
       </ul>
     </div>
-  </div>
+  </div> --}}
 </div>
 
