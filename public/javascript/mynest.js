@@ -107,6 +107,45 @@ async function saveUserHandler(event) {
     }
 }
 
+//saves updated nest info to the DB and reloads page
+async function saveNestHandler(event) {
+    event.preventDefault();
+
+    //capture nest info from form
+    const nest_name = $('#nest-name').val().trim();
+    const street = $('#nest-street').val().trim();
+    const city = $('#nest-city').val().trim();
+    const state = $('#nest-state').val();
+    const zip = $('#nest-zip').val().trim();
+    
+    //get nest ID from data element on page
+    const nest_id = parseInt($('#mynest-info').attr('data-nest-id'));
+
+    //create request body object using only the fields that have input:
+    const body = {};
+    if (nest_name) { body.nest_name = nest_name };
+    if (street) { body.street = street };
+    if (city) { body.city = city };
+    if (state) { body.state = state };
+    if (zip) { body.zip = zip };
+
+    //call API to update nest info
+    const response = await fetch(`/api/nests/${nest_id}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    //if successful, reload the page
+    if (response.ok) {
+        alert("Nest Info Updated!")
+        document.location.replace('/')
+    } else {
+        alert(response.statusText);
+        console.log(response);
+    }
+}
+
 //-----EVENT LISTENERS--------------
 $('#add-task-btn').click(addTaskHandler);
 $('#update-nest-btn').click(updateNestInfoHandler);
@@ -117,3 +156,4 @@ $('.modal-close').click(closeModal);
 $('.cancel-modal').click(closeModal);
 $('#submit-task-btn').click(saveTaskHandler);
 $('#submit-user-btn').click(saveUserHandler);
+$('#submit-nest-btn').click(saveNestHandler);
