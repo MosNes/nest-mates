@@ -1,6 +1,7 @@
 //------------HTML ELEMENTS-----------------
 const taskModal = $('#add-task-modal');
-const updateModal = $('#Update-Nest-Info-modal');
+const updateNestModal = $('#Update-Nest-Info-modal');
+const updateUserModal = $('#update-user-info-modal');
 //---------FUNCTIONS----------------------
 
 //shows modal when Add Task is clicked
@@ -12,8 +13,13 @@ function addTaskHandler(event) {
 //shows modal when Update Nest Info is clicked
 function updateNestInfoHandler(event) {
     event.preventDefault();
-    console.log("click");
-    updateModal.addClass('is-active');
+    updateNestModal.addClass('is-active');
+}
+
+//shows modal when Update My Profile Info is clicked
+function updateUserInfoHandler(event){
+    event.preventDefault();
+    updateUserModal.addClass('is-active');
 }
 
 //shows modal when Leave Nest is clicked
@@ -59,11 +65,18 @@ async function saveTaskHandler(event){
     }
 }
 
+//saves updated user info to the DB and reloads page
+async function saveUserHandler(event){
+    event.preventDefault();
+}
+
 //-----EVENT LISTENERS--------------
 $('#add-task-btn').click(addTaskHandler);
 $('#update-nest-btn').click(updateNestInfoHandler);
+$('#update-user-btn').click(updateUserInfoHandler);
 $('#leave-nest-btn').click(leaveNestHandler);
 $('.modal-close').click(closeModal);
 //all elements with the cancel-modal class will trigger this
 $('.cancel-modal').click(closeModal);
 $('#submit-task-btn').click(saveTaskHandler);
+$('#submit-user-btn').click(saveUserHandler);
