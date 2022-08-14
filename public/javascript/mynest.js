@@ -2,6 +2,8 @@
 const taskModal = $('#add-task-modal');
 const updateNestModal = $('#Update-Nest-Info-modal');
 const updateUserModal = $('#update-user-info-modal');
+const leaveNestModal = $('#leave-nest-modal');
+
 //---------FUNCTIONS----------------------
 
 //shows modal when Add Task is clicked
@@ -25,7 +27,7 @@ function updateUserInfoHandler(event) {
 //shows modal when Leave Nest is clicked
 function leaveNestHandler(event) {
     event.preventDefault();
-
+    leaveNestModal.addClass('is-active');
 }
 
 //hides all modals
@@ -146,6 +148,30 @@ async function saveNestHandler(event) {
     }
 }
 
+//removes user from nest
+async function removeUserHandler(event) {
+    event.preventDefault();
+
+    //get user ID from data element on page
+    const user_id = parseInt($('#mynest-info').attr('data-user-id'));
+
+    //call API to remove user from nest
+    const response = await fetch('/api/nests/remove-user', {
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id
+        }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+        document.location.replace('/')
+    } else {
+        alert(response.statusText);
+        console.log(response);
+    }
+}
+
 //-----EVENT LISTENERS--------------
 $('#add-task-btn').click(addTaskHandler);
 $('#update-nest-btn').click(updateNestInfoHandler);
@@ -157,3 +183,4 @@ $('.cancel-modal').click(closeModal);
 $('#submit-task-btn').click(saveTaskHandler);
 $('#submit-user-btn').click(saveUserHandler);
 $('#submit-nest-btn').click(saveNestHandler);
+$('#leave-nest-confirm-btn').click(removeUserHandler);

@@ -144,7 +144,7 @@ router.put('/add-user', (req, res)=> {
     )
     .then((dbUserData) => {
         if (!dbUserData) {
-            res.status(400).json({ message: 'No user found with that ID' })
+            res.status(404).json({ message: 'No user found with that ID' })
             return;
         }
         //re-calculate assignments with new user
@@ -160,6 +160,37 @@ router.put('/add-user', (req, res)=> {
         res.status(500).json(err);
     });
 });
+
+//Remove user from nest
+router.put('/remove-user', (req, res) => {
+
+    User.update(
+        {
+            nest_id: null
+        },
+        {
+            where: {
+                id: req.body.user_id
+            }
+        }
+    )
+    .then((dbUserData) => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No user found with that ID' })
+            return;
+        }
+
+        //save nest ID to user's session
+        req.session.nest_id = null;
+
+        res.json(dbUserData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+
+})
 
 //update Nest info
 router.put('/:id', (req, res) => {
