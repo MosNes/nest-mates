@@ -16,6 +16,15 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/create", (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/login');
+        return;
+    }
+
+    res.render('nestcreate');
+});
+
 //display login page
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
