@@ -17,7 +17,7 @@ function updateNestInfoHandler(event) {
 }
 
 //shows modal when Update My Profile Info is clicked
-function updateUserInfoHandler(event){
+function updateUserInfoHandler(event) {
     event.preventDefault();
     updateUserModal.addClass('is-active');
 }
@@ -25,7 +25,7 @@ function updateUserInfoHandler(event){
 //shows modal when Leave Nest is clicked
 function leaveNestHandler(event) {
     event.preventDefault();
-    
+
 }
 
 //hides all modals
@@ -35,15 +35,20 @@ function closeModal(event) {
 }
 
 //saves task to DB and reloads page
-async function saveTaskHandler(event){
+async function saveTaskHandler(event) {
     event.preventDefault();
 
+    //capture user input from form
     const task_name = $('#task-name').val().trim();
     const task_description = $('#task-desc').val().trim();
     const recurs = $('#recurs').val();
+
+    //get nest ID from data element on page
     const nest_id = parseInt($('#mynest-info').attr('data-nest-id'));
 
+    //validate input
     if (task_name && task_description && recurs) {
+        //call API to create new task
         const response = await fetch('/api/tasks/', {
             method: 'post',
             body: JSON.stringify({
@@ -52,7 +57,7 @@ async function saveTaskHandler(event){
                 recurs,
                 nest_id
             }),
-            headers: {'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         });
 
         //if successful, reload the page
@@ -66,8 +71,40 @@ async function saveTaskHandler(event){
 }
 
 //saves updated user info to the DB and reloads page
-async function saveUserHandler(event){
+async function saveUserHandler(event) {
     event.preventDefault();
+
+    //capture user input from form
+    const first_name = $('#user-first-name').val().trim();
+    const last_name = $('#user-last-name').val().trim();
+    const email = $('#user-email').val().trim();
+    const password = $('#user-password').val().trim();
+
+    //get user ID from data element on page
+    const user_id = parseInt($('#mynest-info').attr('data-user-id'));
+
+    //create request body object using only the fields that have input:
+    const body = {};
+    if (first_name) { body.first_name = first_name };
+    if (last_name) { body.last_name = last_name };
+    if (email) { body.email = email };
+    if (password) { body.password = password };
+
+    //call API to update user info
+    const response = await fetch(`/api/users/${user_id}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    //if successful, reload the page
+    if (response.ok) {
+        alert("Profile Info Updated!")
+        document.location.replace('/')
+    } else {
+        alert(response.statusText);
+        console.log(response);
+    }
 }
 
 //-----EVENT LISTENERS--------------
