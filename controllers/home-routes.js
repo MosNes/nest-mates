@@ -46,6 +46,13 @@ router.get('/newnest', (req, res) => {
     res.render('nestcreate', {loggedIn: req.session.loggedIn, user_id: req.session.user_id});
 })
 
+//display first task page
+router.get('/first-task', (req, res) => {
+    res.render('firstTask', {
+        loggedIn: req.session.loggedIn, userId: req.session.user_id, nestId: req.session.nest_id
+    });
+})
+
 //display myNest page
 router.get('/mynest', async (req, res) => {
 
@@ -90,9 +97,7 @@ router.get('/mynest', async (req, res) => {
         .then(dbAssignmentData => {
             if (!dbAssignmentData[0]) {
                 // res.status(404).json({ message: 'No assignment found with this id' });
-                res.render('firstTask', {
-                    loggedIn: req.session.loggedIn, userId: req.session.user_id, nestId: req.session.nest_id
-                })
+                res.redirect('/first-task');
                 console.log("no assignments found")
                 return;
             }
