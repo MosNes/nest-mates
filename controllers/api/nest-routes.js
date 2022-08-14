@@ -165,6 +165,8 @@ router.put('/add-user', (req, res)=> {
 router.put('/remove-user', (req, res) => {
 
     const nest_id = req.session.nest_id;
+    //set nest_id to null in session
+    req.session.destroy();
 
     User.update(
         {
@@ -181,9 +183,6 @@ router.put('/remove-user', (req, res) => {
             res.status(404).json({ message: 'No user found with that ID' })
             return;
         }
-
-        //save nest ID to user's session
-        req.session.nest_id = null;
 
         //get array of users who are still in the nest
         User.findAll({
@@ -205,6 +204,7 @@ router.put('/remove-user', (req, res) => {
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
+            return;
         });
 
         //return response
@@ -256,7 +256,7 @@ router.delete('/:id', (req, res) => {
     })
         .then(dbNestData => {
             if (!dbNestData) {
-                res.status(404).json({ message: 'No post found with this id' });
+                res.status(404).json({ message: 'No nest found with this id' });
                 return;
             }
             res.json(dbNestData);

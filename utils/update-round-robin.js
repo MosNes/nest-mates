@@ -70,6 +70,12 @@ const updateRoundRobin = async (recordId, eventType) => {
 			return;
 		});
 
+	//if nest has no tasks, stop
+	if (!taskArray[0]) {
+		console.log("nest has no associated tasks");
+		return;
+	}
+
 	//query the DB to get new array of users sorted by creation date
 	const userArray = await User.findAll({
 		where: {
@@ -122,12 +128,22 @@ const updateRoundRobin = async (recordId, eventType) => {
 		//create round robin object from taskArray
 		const taskTable = new SequentialRoundRobin(taskArray);
 
-		//get the id of the last user who was assigned given an assignment of the same type ('daily', 'weekly', 'monthly')
+		let lastUserId;
+
+		//if there are no existing assignments, set lastUserId to the last user in the user array.
+		if (!assignmentArray[0]) {
+
+			lastUserId = userArray[userArray.length-1].id;
+
+		//else get the id of the last user who was assigned given an assignment of the same type ('daily', 'weekly', 'monthly')
 		//this will allow us to calculate who in the array should receive the next assignment
-		const filteredAssignmentArr = assignmentArray
+		} else {
+			const filteredAssignmentArr = assignmentArray
 			.reverse()
 			.filter((assignment) => assignment.task.recurs === record.recurs);
-		const lastUserId = filteredAssignmentArr[0].user_id;
+			lastUserId = filteredAssignmentArr[0].user_id;
+		}
+		
 		console.log('ID of Last User:', lastUserId);
 
 		//remove all assignment records from the DB of the same type ('daily', 'weekly, or 'monthly') that come after
