@@ -64,6 +64,50 @@ async function newNestHandler(event) {
 async function joinNestHandler(event) {
     event.preventDefault();
 
+    //gets user ID from data element on page
+    const user_id = parseInt($('#nest-info-form').attr('data-user-id'));
+
+    let nestInfo;
+
+    //get input values from form
+    const share_id = $('#share-id').val().trim();
+
+    const response = await fetch (`/api/nests/share/${share_id}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+
+        nestInfo = await response.json();
+
+    } else {
+        alert(response.statusText);
+        console.log(response);
+        return;
+    }
+
+    const addUserBody = {
+        nest_id: nestInfo.id,
+        user_id: user_id
+    }
+
+    const addUserResponse = await fetch ('/api/nests/add-user', {
+        method: 'PUT',
+        body: JSON.stringify(addUserBody),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (addUserResponse.ok) {
+
+        document.location.replace('/mynest');
+
+    } else {
+        alert(addUserResponse.statusText);
+        console.log(addUserResponse);
+        return;
+    }
+
 }
 
 //-----------EVENT LISTENER------------------

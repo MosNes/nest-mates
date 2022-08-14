@@ -76,6 +76,8 @@ async function handleFormSubmit(event) {
 
             document.location.replace('/mynest');
         }
+        
+        document.location.replace('/mynest');
     }
 
 }
