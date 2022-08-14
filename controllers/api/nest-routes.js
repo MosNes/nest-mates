@@ -164,6 +164,8 @@ router.put('/add-user', (req, res)=> {
 //Remove user from nest
 router.put('/remove-user', (req, res) => {
 
+    const nest_id = req.session.nest_id;
+
     User.update(
         {
             nest_id: null
@@ -183,6 +185,29 @@ router.put('/remove-user', (req, res) => {
         //save nest ID to user's session
         req.session.nest_id = null;
 
+        //get array of users who are still in the nest
+        User.findAll({
+            where: {
+                nest_id: nest_id
+            }
+        })
+        .then((dbUserData) => {
+            if (!dbUserData[0]) {
+                res.status(404).json({ message: 'No users found with that nest ID' })
+                return;
+            }
+
+            const lastUserId = dbUserData[dbUserData.length-1].id
+
+            //re-calculate assignments without the removed user
+            updateRoundRobin(lastUserId, 'newUser');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+
+        //return response
         res.json(dbUserData);
     })
     .catch(err => {

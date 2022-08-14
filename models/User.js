@@ -93,9 +93,15 @@ User.init(
             },
 
             // runs when a user is updated, requires { individualHooks: true } to be added to the function that handles the update in the PUT route
+            // if the request contains a .password property, re-hash the password. Otherwise don't.
             async beforeUpdate(updatedUserData) {
-                updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-                return updatedUserData;
+                if (updatedUserData.changed('password')) {
+                    updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+                    return updatedUserData;
+                } else {
+                    return updatedUserData;
+                }
+                
             }
         },
         sequelize,

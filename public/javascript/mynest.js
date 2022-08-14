@@ -90,7 +90,9 @@ async function saveUserHandler(event) {
     if (first_name) { body.first_name = first_name };
     if (last_name) { body.last_name = last_name };
     if (email) { body.email = email };
-    if (password) { body.password = password };
+    if (password && password.length >= 8) { body.password = password };
+
+    console.log(body);
 
     //call API to update user info
     const response = await fetch(`/api/users/${user_id}`, {
