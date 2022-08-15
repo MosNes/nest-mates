@@ -141,10 +141,12 @@ const updateRoundRobin = async (recordId, eventType) => {
 			const filteredAssignmentArr = assignmentArray
 			.reverse()
 			.filter((assignment) => assignment.task.recurs === record.recurs);
-			lastUserId = filteredAssignmentArr[0].user_id;
+			
 			//if no assignments are found, set last user to last user in the array
-			if (!lastUserID) {
+			if (!filteredAssignmentArr[0]) {
 				lastUserId = userArray[userArray.length-1].id;
+			} else {
+				lastUserId = filteredAssignmentArr[0].user_id;
 			}
 		}
 		
