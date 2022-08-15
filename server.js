@@ -40,6 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //required for users to see static assets in the public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 //required for Express Handlebars
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
