@@ -11,7 +11,7 @@ const sequelize = require('./config/connection');
 //handlebars for express
 const exphbs = require('express-handlebars');
 //create the handlebars object and include the custom helper functions
-const hbs = exphbs.create({ partialsDir: './views/Partials' });
+const hbs = exphbs.create({ partialsDir: './views/partials' });
 //sessions for express, and connect-session-sequelize to write session data to the db using sequelize
 const session = require('express-session');
 

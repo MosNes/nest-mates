@@ -30,7 +30,7 @@ async function saveTaskHandler(event) {
         if (response.ok) {
             const responseData = await response.json();
             console.log(responseData);
-            document.location.replace('/mynest');
+            document.location.replace('/');
         } else {
             alert(response.statusText);
             console.log(response);
