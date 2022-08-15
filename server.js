@@ -14,7 +14,7 @@ const exphbs = require('express-handlebars');
 const hbs = exphbs.create({});
 //sessions for express, and connect-session-sequelize to write session data to the db using sequelize
 const session = require('express-session');
-// const { truncate } = require('fs');
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const sess = {
